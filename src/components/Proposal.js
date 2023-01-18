@@ -14,14 +14,11 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import { mobileCheck } from "../utility/common";
 import { firebase, auth } from "../firebase";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import DialogContent from "@mui/material/DialogContent";
-
-// import Claims from "home/Claims";
-// const PurposeDetail = React.lazy(() => import("home/PurposeDetail"));
 
 export default function Proposal({
   contactData,
@@ -32,77 +29,41 @@ export default function Proposal({
   insParty,
   setLoader,
 }) {
-  let [isEmailOtpActive, setEmailOtpActive] = useState(false);
-  let [isMobileOtpActive, setMobileOtpActive] = useState(false);
-  let [isAadharOtpActive, setAadharOtpActive] = useState(false);
-
-  let [isEmailVarified, setEmailVerified] = useState(false);
-  let [isMobileVarified, setMobileVerified] = useState(false);
-  let [isAadharVerified, setAadharVerified] = useState(false);
-
-  let [emailOtp, setEmailOtp] = useState("");
-  let [mobileOtp, setMobileOtp] = useState("");
-  let [aadharOtp, setAadharOtp] = useState("");
-
-  const [payload, setPayload] = useState(null);
-
-  const [final, setfinal] = useState(null);
   let [insPartyDetails, setInsPartyDetails] = useState({});
+  let [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {
-    if (emailOtp.length == 6) setEmailVerified(true);
-  }, [emailOtp]);
+  function validate() {
+    let parties = Object.entries(insParty)
+      .filter((elem) => elem[1])
+      .map((e) => e[0]);
 
-  // useEffect(() => {
-  //   const mojoauth = new MojoAuth("test-70d678ab-4b55-4445-9b2e-040ba352a6ce", {
-  //     source: [{ type: "phone", feature: "otp" }],
-  //   });
-  //   mojoauth.signIn().then((payload) => {
-  //     setPayload(payload);
-  //     document.getElementById("mojoauth-passwordless-form").remove();
-  //   });
-  // }, []);
+    for (let i = 0; i < parties.length; i++) {
+      let check =
+        insPartyDetails[parties[i]] &&
+        insPartyDetails[parties[i]]["firstName"] &&
+        insPartyDetails[parties[i]]["lastName"] &&
+        insPartyDetails[parties[i]]["dob"] &&
+        insPartyDetails[parties[i]]["weight"];
 
-  useEffect(() => {
-    if (final == "") {
-      let verify = new firebase.auth.RecaptchaVerifier("recaptcha-container");
-      auth
-        .signInWithPhoneNumber("+91" + contactData["mobile"], verify)
-        .then((result) => {
-          setfinal(result);
-          setMobileOtpActive(true);
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      if (!check) {
+        return false;
+      }
     }
-  }, [final]);
+    return true;
+  }
 
-  useEffect(() => {
-    if (mobileOtp.length == 6) {
-      final
-        .confirm(mobileOtp)
-        .then((result) => {
-          setMobileVerified(true);
-        })
-        .catch((err) => {
-          alert("Wrong code");
-        });
-    }
-  }, [mobileOtp]);
-  useEffect(() => {
-    if (aadharOtp.length == 6) setAadharVerified(true);
-  }, [aadharOtp]);
+  useEffect(() => {});
 
   let navigate = useNavigate();
   async function next() {
-    console.log(insPartyDetails);
-    debugger;
+    if (!validate()) {
+      setErrorMsg(true);
+      return;
+    }
     let insPartyArray = Object.entries(insPartyDetails).map((item) => {
       item[1]["relationship"] = item[0];
       return item[1];
     });
-    console.log(data);
 
     let data = {
       customerId: sessionStorage.getItem("customerId"),
@@ -273,16 +234,18 @@ export default function Proposal({
                     />{" "}
                   </Grid> */}
                 </Grid>
+                <Typography
+                  variant="caption"
+                  sx={{ display: errorMsg ? "block" : "none", color: "red" }}
+                  display="block"
+                  gutterBottom
+                >
+                  All fields are manadatory.
+                </Typography>
               </div>
-
-              {final == "" && (
-                <div
-                  style={{ marginTop: "30px" }}
-                  id="recaptcha-container"
-                ></div>
-              )}
             </div>
           </div>
+
           <div class="submit-wrap align-center">
             <Button
               variant="contained"
