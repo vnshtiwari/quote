@@ -8,6 +8,10 @@ import NavBar from "./NavBar";
 import policyIssuance from "./PolicyIssuance";
 
 import PubSub from "pubsub-js";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Button from "@mui/material/Button";
 
 // import BasicInfo from "./BasicInfo";
 // const BasicInfo = React.lazy(() => import("./BasicInfo"));
@@ -88,7 +92,9 @@ export default function Home() {
   let [plan, setPlan] = useState([]);
   let [p, setP] = useState("");
 
-  let [amount, setAmount] = useState(null);
+  let [policyStatus, setPolicyStatus] = useState("");
+
+  let [amount, setAmount] = useState(0);
 
   const [isLoader, setLoader] = useState(false);
 
@@ -168,6 +174,19 @@ export default function Home() {
     else return true;
   }
 
+  const handleClose = () => {
+    debugger;
+    setOpen(false);
+  };
+
+  let [errMsg, setErr] = useState("");
+  function setErrMsg(err) {
+    setErr(err);
+    setOpen(true);
+  }
+
+  const [open, setOpen] = useState(false);
+
   const fallback = (
     <CircularProgress
       style={{
@@ -175,6 +194,7 @@ export default function Home() {
         top: "50%",
         left: "50%",
         color: "#ed1b2e",
+        zIndex: "100",
       }}
     />
   );
@@ -192,6 +212,15 @@ export default function Home() {
           color: "#ed1b2e",
         }}
       />
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogContent>{errMsg}</DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
       {/* <section data-v-70391ab4="" class="mb-4 banner primary">
         <h1 data-v-70391ab4="" class="top-heading">
           Get protected in mins
@@ -216,6 +245,7 @@ export default function Home() {
                   error={error}
                   validate={validate}
                   setLoader={setLoader}
+                  setErrMsg={setErrMsg}
                 ></ContactInfo>
               </Suspense>
             }
@@ -224,7 +254,11 @@ export default function Home() {
             path="insuranceQuestionnaire"
             element={
               <Suspense fallback={fallback}>
-                <InsuranceQuestionnair setLoader={setLoader} />
+                <InsuranceQuestionnair
+                  setLoader={setLoader}
+                  setErrMsg={setErrMsg}
+                  setPolicyStatus={setPolicyStatus}
+                />
               </Suspense>
             }
           />
@@ -242,6 +276,7 @@ export default function Home() {
                   handleChange={handleChange}
                   state={state}
                   setLoader={setLoader}
+                  setErrMsg={setErrMsg}
                 />
               </Suspense>
             }
@@ -258,6 +293,7 @@ export default function Home() {
                   amount={amount}
                   setAmount={setAmount}
                   setLoader={setLoader}
+                  setErrMsg={setErrMsg}
                 />
               </Suspense>
             }
@@ -273,6 +309,7 @@ export default function Home() {
                   validate={validate}
                   amount={amount}
                   setLoader={setLoader}
+                  setErrMsg={setErrMsg}
                 />
               </Suspense>
             }
@@ -281,7 +318,7 @@ export default function Home() {
             path="policyIssuance"
             element={
               <Suspense fallback={fallback}>
-                <PolicyIssuance />
+                <PolicyIssuance policyStatus={policyStatus} />
               </Suspense>
             }
           />
@@ -297,6 +334,7 @@ export default function Home() {
                   amount={amount}
                   insParty={state}
                   setLoader={setLoader}
+                  setErrMsg={setErrMsg}
                 />
               </Suspense>
             }

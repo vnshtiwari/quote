@@ -18,6 +18,8 @@ import { Grid } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import DialogContent from "@mui/material/DialogContent";
+
 // import Claims from "home/Claims";
 // const PurposeDetail = React.lazy(() => import("home/PurposeDetail"));
 
@@ -28,6 +30,7 @@ export default function Proposal({
   error,
   validate,
   insParty,
+  setLoader,
 }) {
   let [isEmailOtpActive, setEmailOtpActive] = useState(false);
   let [isMobileOtpActive, setMobileOtpActive] = useState(false);
@@ -103,7 +106,7 @@ export default function Proposal({
 
     let data = {
       customerId: sessionStorage.getItem("customerId"),
-      quoteId: 2,
+      quoteId: sessionStorage.getItem("quoteId"),
       mobile: "7338237890",
       firstName: insPartyDetails["Self"]?.firstName,
       lastName: insPartyDetails["Self"]?.lastName,
@@ -112,6 +115,8 @@ export default function Proposal({
       gender: "male",
       insurableParty: insPartyArray,
     };
+
+    setLoader(true);
 
     const rawResponse = await fetch(
       "https://sahi-backend-dnhiaxv6nq-el.a.run.app/api/v1/sahi/proposal/create",
@@ -125,7 +130,7 @@ export default function Proposal({
       }
     );
     const content = await rawResponse.json();
-    debugger;
+    setLoader(false);
 
     console.log(content.proposalId);
     sessionStorage.setItem("proposalId", content.proposalId);
@@ -216,12 +221,19 @@ export default function Proposal({
                               fullWidth
                               label="Weight"
                               variant="outlined"
+                              value={insPartyDetails[item[0]]?.weight}
                               onChange={(e) => {
                                 if (!insPartyDetails[item[0]])
                                   insPartyDetails[item[0]] = {};
                                 insPartyDetails[item[0]]["weight"] =
-                                  e.target.value;
+                                  e.target.value.slice(0, 3);
                                 setInsPartyDetails({ ...insPartyDetails });
+                              }}
+                              type="number"
+                              required
+                              inputProps={{
+                                maxlength: 3,
+                                autocomplete: "off",
                               }}
                             />
                           </Grid>

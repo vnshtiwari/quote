@@ -1,8 +1,19 @@
 import { React, useState } from "react";
 
-export default function PolicyIssuance() {
+export default function PolicyIssuance({ policyStatus }) {
   return (
     <section style={{ display: "flex", justifyContent: "center" }}>
+      <div
+        style={{
+          "box-shadow": "rgba(0, 0, 0, 0.15) 0px 79px 158px 0px",
+          margin: "20px",
+          padding: "20px",
+          maxWidth: "600px",
+          display: policyStatus != "Accepted" ? "block" : "none",
+        }}
+      >
+        Your policy status {policyStatus}
+      </div>
       <div
         class="page"
         style={{
@@ -10,6 +21,7 @@ export default function PolicyIssuance() {
           margin: "20px",
           padding: "20px",
           maxWidth: "600px",
+          display: policyStatus == "Accepted" ? "block" : "none",
         }}
       >
         <h2>Welcome!!</h2>

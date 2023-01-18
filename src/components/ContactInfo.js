@@ -107,7 +107,6 @@ export default function ContactInfo({
       const content = await rawResponse.json();
       setLoader(false);
 
-      console.log(content.quote);
       setPlan([...content.quote]);
       navigate("../plans");
     }

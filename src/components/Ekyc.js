@@ -27,6 +27,7 @@ export default function Ekyc({
   error,
   validate,
   amount,
+  setErrMsg,
 }) {
   var formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -47,10 +48,10 @@ export default function Ekyc({
       root: "#checkout",
       flow: "DEFAULT",
       data: {
-        orderId: sessionStorage.getItem("orderId"),
+        orderId: "sahi-" + sessionStorage.getItem("proposalId"),
         token: localStorage.getItem("txnToken") /* update token value */,
         tokenType: "TXN_TOKEN",
-        amount: "100.00" /* update amount */,
+        amount: amount /* update amount */,
       },
       merchant: {
         redirect: false,
@@ -68,9 +69,11 @@ export default function Ekyc({
           if (paymentStatus.STATUS == "TXN_SUCCESS") {
             debugger;
             //messageEl.style.display = "none";
-            theScript.parentNode.removeChild(paytmScript);
+            //paytmScript.parentNode.removeChild(paytmScript);
 
             navigate("../insuranceQuestionnaire");
+          } else {
+            setErrMsg(paymentStatus);
           }
           //messageEl.appendChild(messageNode);
           //messageEl.style.display = "block";
@@ -118,9 +121,9 @@ export default function Ekyc({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          orderId: sessionStorage.getItem("orderId"),
+          orderId: "sahi-" + sessionStorage.getItem("proposalId"),
           customerId: sessionStorage.getItem("customerId"),
-          amount: "10000",
+          amount: amount,
         }),
       }
     )
@@ -132,6 +135,7 @@ export default function Ekyc({
       })
       .catch((err) => {
         console.log(err);
+        setErrMsg(err);
       });
   }
 

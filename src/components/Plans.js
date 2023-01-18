@@ -104,8 +104,9 @@ export default function Plans({
     console.log(content);
     setSelectedPlan({ ...content.quote[0] });
     setAmount(content.quote[0].amount);
+    debugger;
     sessionStorage.setItem("customerId", content.customerId);
-    sessionStorage.setItem("orderId", content.quoteId);
+    sessionStorage.setItem("quoteId", content.quoteId);
 
     navigate("../personalisedQuote");
   }
@@ -392,7 +393,7 @@ export default function Plans({
                 size="large"
                 variant="contained"
               >
-                Get Personalised Quote
+                Get Quote
               </Button>
             </div>
           </Toolbar>

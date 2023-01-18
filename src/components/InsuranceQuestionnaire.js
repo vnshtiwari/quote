@@ -9,8 +9,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-export default function InsuranceQuestionnair({ setLoader }) {
+export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
   const navigate = useNavigate();
 
   let [step, setStep] = useState(0);
@@ -29,6 +30,8 @@ export default function InsuranceQuestionnair({ setLoader }) {
   let [questionType, setQuestionType] = useState("");
 
   let [currQuestion, setCurrQuestion] = useState({});
+
+  let [quesSeq, setQuesSeq] = useState([]);
 
   let [currIdx, setCurrIdx] = useState(0);
   let questionObj = {
@@ -215,12 +218,17 @@ export default function InsuranceQuestionnair({ setLoader }) {
     setArr([{ obj: questionObj.questions, index: 0 }]);
     setQuestion(questionObj.questions[0].question);
     setQuestionType(questionObj.questions[0].answerFormat);
+    setCurrQuestion(questionObj.questions[0]);
+    quesSeq.push();
   }, []);
 
   function nextQ(res) {
     let elem = arr[arr.length - 1];
     if (res == "yes" || res == "no") {
-      answer.push({ id: elem.obj[elem.index].id, answer: res });
+      answer.push({
+        id: elem.obj[elem.index].id,
+        answer: res == "yes" ? true : false,
+      });
     } else answer.push({ id: elem.obj[elem.index].id, answer: currAnswer });
     setAnswer([...answer]);
     console.log(answer);
@@ -248,11 +256,8 @@ export default function InsuranceQuestionnair({ setLoader }) {
           .then((res) => res.json())
           .then((data) => {
             setLoader(false);
-
-            debugger;
-            if (data.status == "Accepted") {
-              navigate("../policyIssuance");
-            }
+            setPolicyStatus(data.status);
+            navigate("../policyIssuance");
           })
           .catch((err) => {
             console.log(err);
@@ -293,6 +298,67 @@ export default function InsuranceQuestionnair({ setLoader }) {
     setCurrAnswer("");
   }
 
+  function previousQ(res) {
+    let elem = arr[arr.length - 1];
+    if (arr.length == 0) {
+      return;
+    }
+    // if (res == "yes" || res == "no") {
+    //   answer.push({
+    //     id: elem.obj[elem.index].id,
+    //     answer: res == "yes" ? true : false,
+    //   });
+    // } else answer.push({ id: elem.obj[elem.index].id, answer: currAnswer });
+    answer.pop();
+    setAnswer([...answer]);
+    console.log(answer);
+
+    if (elem.index <= 0) {
+      arr.pop();
+      if (arr.length == 0) {
+        return;
+      }
+      if (arr.length != 0) {
+        elem = arr[arr.length - 1];
+        // elem.index = elem.index - 1;
+        // while (elem.index >= elem.obj.length - 1) {}
+        setQuestion(elem.obj[elem.index].question);
+        setQuestionType(elem.obj[elem.index].answerFormat);
+        setCurrQuestion(elem.obj[elem.index]);
+      }
+
+      setArr([...arr]);
+      return;
+    } else {
+      elem.index = elem.index - 1;
+      // while (elem.index >= elem.obj.length - 1) {}
+      setQuestion(elem.obj[elem.index].question);
+      setQuestionType(elem.obj[elem.index].answerFormat);
+      setCurrQuestion(elem.obj[elem.index]);
+    }
+
+    // if (elem.obj[elem.index].hasNext && res == "yes") {
+    //   arr.push({ obj: elem.obj[elem.index].next, index: 0 });
+
+    //   setQuestion(elem.obj[elem.index].next[0].question);
+    //   setQuestionType(elem.obj[elem.index].next[0].answerFormat);
+    //   setCurrQuestion(elem.obj[elem.index].next[0]);
+
+    //   //elem.index = elem.index + 1;
+
+    //   setArr([...arr]);
+    // } else {
+    //   elem.index = elem.index + 1;
+    //   setQuestion(elem.obj[elem.index].question);
+    //   setQuestionType(elem.obj[elem.index].answerFormat);
+    //   setCurrQuestion(elem.obj[elem.index]);
+
+    //   setArr([...arr]);
+    // }
+    console.log(currQuestion);
+    setCurrAnswer("");
+  }
+
   function next() {
     if (step < HealthInsuranceQuestion.length - 1) {
       setStep(++step);
@@ -315,7 +381,19 @@ export default function InsuranceQuestionnair({ setLoader }) {
             {/* <p class="StyledElements__QuestionSubHeader-vnab5o-1 ChatQuestionWrapper__SubHeader-sc-1uvt1f0-3 kDtpEG kkAEss">
               Just answer these 3 quick&nbsp;questions
             </p> */}
+
             <form autocomplete="off" novalidate="" class="bcuijq">
+              <ChevronLeftIcon
+                style={{
+                  position: "relative",
+                  left: "-50px",
+                  top: "100px",
+                  "font-size": "40px",
+                  cursor: "pointer",
+                }}
+                onClick={previousQ}
+              />
+
               <div className="question-form" style={{ width: "100%" }}>
                 <div style={{ "max-width": "416px" }} class="faXeTW hLEbcr">
                   <div style={{ width: "100%" }} class="cZobsb gLeraX">
@@ -346,7 +424,6 @@ export default function InsuranceQuestionnair({ setLoader }) {
                           marks={marks}
                         />
                       )}
-
                       {questionType == "string" &&
                         currQuestion.answerOptions === undefined && (
                           <TextField
