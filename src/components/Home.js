@@ -33,6 +33,7 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./home.css";
 import PolicyIssuance from "./PolicyIssuance";
 import Proposal from "./Proposal";
+import Payment from "./Payment";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -310,6 +311,8 @@ export default function Home() {
                   amount={amount}
                   setLoader={setLoader}
                   setErrMsg={setErrMsg}
+                  basicData={basicData}
+                  setBasicData={setBasicData}
                 />
               </Suspense>
             }
@@ -335,10 +338,30 @@ export default function Home() {
                   insParty={state}
                   setLoader={setLoader}
                   setErrMsg={setErrMsg}
+                  basicData={basicData}
                 />
               </Suspense>
             }
           />
+
+          <Route
+            path="payment"
+            element={
+              <Suspense fallback={fallback}>
+                <Payment
+                  ekycData={ekycData}
+                  setEkycData={setEkycData}
+                  error={error}
+                  validate={validate}
+                  amount={amount}
+                  setLoader={setLoader}
+                  setErrMsg={setErrMsg}
+                  setBasicData={setBasicData}
+                />
+              </Suspense>
+            }
+          />
+
           <Route
             path=""
             element={<Navigate replace to="contactInfo" />}

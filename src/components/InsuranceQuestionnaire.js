@@ -34,202 +34,50 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
   let [quesSeq, setQuesSeq] = useState([]);
 
   let [currIdx, setCurrIdx] = useState(0);
-  let questionObj = {
-    requestId: "uw_42348",
-    questions: [
-      {
-        id: 1,
-        question: "Do you smoke?",
-        answerFormat: "boolean",
-        hasNext: true,
-        showNextOnAnswer: "true",
-        next: [
-          {
-            id: 2,
-            question: "How many cigarettes in a day do you smoke?",
-            answerFormat: "number",
-            hasNext: false,
-          },
-          {
-            id: 3,
-            question: "At what age did you start smoking?",
-            answerFormat: "number",
-            hasNext: false,
-          },
-        ],
-      },
-      {
-        id: 4,
-        question: "Do you drink?",
-        answerFormat: "boolean",
-        hasNext: true,
-        showNextOnAnswer: "true",
-        next: [
-          {
-            id: 5,
-            question: "How often do you drink?",
-            answerFormat: "string",
-            answerOptions: ["regularly", "occasionally"],
-            hasNext: true,
-            showNextOnAnswer: "regularly",
-            next: [
-              {
-                id: 6,
-                question:
-                  "Have you experienced any health issues because of your drinking habits?",
-                answerFormat: "boolean",
-                hasNext: false,
-              },
-            ],
-          },
-          {
-            id: 7,
-            question: "At what age did you start drinking?",
-            answerFormat: "number",
-            hasNext: false,
-          },
-        ],
-      },
-      {
-        id: 8,
-        question: "Provide your height in CMs.",
-        answerFormat: "number",
-        hasNext: false,
-      },
-      {
-        id: 9,
-        question: "Provide your weight in KGs.",
-        answerFormat: "number",
-        hasNext: false,
-      },
-      {
-        id: 10,
-        question: "Have you been diagonased with Asthma?",
-        answerFormat: "boolean",
-        hasNext: false,
-      },
-      {
-        id: 11,
-        question: "Have you been diagonased with high or low blood pressure?",
-        answerFormat: "boolean",
-        hasNext: false,
-      },
-      {
-        id: 12,
-        question: "Have you been diagonased with Cancer?",
-        answerFormat: "boolean",
-        hasNext: true,
-        showNextOnAnswer: "true",
-        next: [
-          {
-            id: 13,
-            question:
-              "Provide the type of cancer you have been diagonased with.",
-            answerFormat: "string",
-            hasNext: false,
-          },
-          {
-            id: 14,
-            question: "What stage of cancer were you diagnosed with?",
-            answerFormat: "string",
-            hasNext: false,
-          },
-          {
-            id: 15,
-            question: "Have you recovered completely from Cancer?",
-            answerFormat: "boolean",
-            hasNext: false,
-          },
-        ],
-      },
-      {
-        id: 16,
-        question: "Have you been diagnosed with Diabestes?",
-        answerFormat: "boolean",
-        hasNext: true,
-        showNextOnAnswer: "true",
-        next: [
-          {
-            id: 17,
-            question: "Do you take insulin?",
-            answerFormat: "boolean",
-            hasNext: false,
-          },
-          {
-            id: 18,
-            question: "At what age were you diagnosed with Diabetes?",
-            answerFormat: "number",
-            hasNext: false,
-          },
-        ],
-      },
-      {
-        id: 19,
-        question: "Have you been hospitalised in the last 1 year?",
-        answerFormat: "boolean",
-        hasNext: true,
-        showNextOnAnswer: "true",
-        next: [
-          {
-            id: 20,
-            question: "For which condition were you hospitalised?",
-            answerFormat: "string",
-            hasNext: false,
-          },
-        ],
-      },
-      {
-        id: 21,
-        question: "Are you under any ongoing medications?",
-        answerFormat: "boolean",
-        hasNext: true,
-        showNextOnAnswer: "true",
-        next: [
-          {
-            id: 22,
-            question: "Mention the medications you are taking.",
-            answerFormat: "string",
-            hasNext: false,
-          },
-        ],
-      },
-      {
-        id: 23,
-        question:
-          "Do you have any symptoms for which you have not been diagonosed or been treated?",
-        answerFormat: "boolean",
-        hasNext: false,
-      },
-    ],
-  };
+  let [questionObj, setQuestionObj] = useState([]);
 
   useEffect(() => {
-    // fetch(
-    //   "https://sahi-underwriting-service-dnhiaxv6nq-el.a.run.app/external/underwriting/questions"
-    // ) //api for the get request
-    //   .then((response) => {
-    //     response.json();
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //   });
+    fetch(
+      "https://sahi-backend-dnhiaxv6nq-el.a.run.app/api/v1/sahi/uw/questions"
+    ) //api for the get request
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        let questionObj = data;
+        debugger;
+        setArr([{ obj: questionObj.questions, index: 0 }]);
+        setQuestion(questionObj.questions[0].question);
+        setQuestionType(questionObj.questions[0].answerFormat);
+        setCurrQuestion(questionObj.questions[0]);
+        quesSeq.push();
+        console.log(data);
+      });
 
     // let [ques, setQues] = useState({ ...questionObj });
-    setArr([{ obj: questionObj.questions, index: 0 }]);
-    setQuestion(questionObj.questions[0].question);
-    setQuestionType(questionObj.questions[0].answerFormat);
-    setCurrQuestion(questionObj.questions[0]);
-    quesSeq.push();
   }, []);
 
   function nextQ(res) {
     let elem = arr[arr.length - 1];
+
+    for (let i = 0; i < answer.length; i++) {
+      if (answer[i].id == elem.obj[elem.index].id) {
+        answer.splice(i, 1);
+      }
+    }
+
     if (res == "yes" || res == "no") {
       answer.push({
         id: elem.obj[elem.index].id,
+        key: elem.obj[elem.index].key,
         answer: res == "yes" ? true : false,
       });
-    } else answer.push({ id: elem.obj[elem.index].id, answer: currAnswer });
+    } else
+      answer.push({
+        id: elem.obj[elem.index].id,
+        key: elem.obj[elem.index].key,
+        answer: currAnswer,
+      });
     setAnswer([...answer]);
     console.log(answer);
 

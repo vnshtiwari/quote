@@ -58,7 +58,7 @@ export default function Plans({
   }
 
   function buyNow() {
-    navigate("../proposal");
+    navigate("../ekyc");
   }
 
   const ITEM_HEIGHT = 48;

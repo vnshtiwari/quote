@@ -28,6 +28,8 @@ export default function Ekyc({
   validate,
   amount,
   setErrMsg,
+  basicData,
+  setBasicData,
 }) {
   var formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -71,7 +73,7 @@ export default function Ekyc({
             //messageEl.style.display = "none";
             //paytmScript.parentNode.removeChild(paytmScript);
 
-            navigate("../insuranceQuestionnaire");
+            navigate("../proposal");
           } else {
             setErrMsg(paymentStatus);
           }
@@ -193,7 +195,7 @@ export default function Ekyc({
 
   function next() {
     validate(1);
-    initiateTransaction();
+    navigate("../proposal");
   }
   const [open, setOpen] = useState(false);
   const [paytmScript, setPaytmScript] = useState(null);
@@ -203,13 +205,16 @@ export default function Ekyc({
   };
 
   function fileUpload(type, e) {
+    debugger;
     setLoader(true);
     var data = new FormData();
 
     data.append("front_part", e.target.files[0]);
 
     fetch(
-      "https://sahi-backend-dnhiaxv6nq-el.a.run.app/api/v1/sahi/verify/kyc?customerId=43",
+      `https://sahi-backend-dnhiaxv6nq-el.a.run.app/api/v1/sahi/verify/kyc?customerId=${sessionStorage.getItem(
+        "customerId"
+      )}`,
       {
         method: "POST",
         body: data,
@@ -220,8 +225,19 @@ export default function Ekyc({
       })
       .then((res) => {
         ekycData[type] = res.result.data.id_no;
+
         setLoader(false);
         setEkycData({ ...ekycData });
+        if (res.result.data.id_type == "AADHAAR") {
+          let name = res.result.data.name;
+          basicData["firstName"] = name.substring(0, name.indexOf(" "));
+          basicData["lastName"] = name.substring(
+            name.indexOf(" ") + 1,
+            name.length
+          );
+
+          setBasicData({ ...basicData });
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -369,9 +385,9 @@ export default function Ekyc({
 
           <div class="submit-wrap align-center">
             <Button
-              disabled={
-                !(ekycData["pan"] != "" && ekycData["aadharEkyc"] != "")
-              }
+              // disabled={
+              //   !(ekycData["pan"] != "" && ekycData["aadharEkyc"] != "")
+              // }
               onClick={next}
               variant="contained"
               color="error"

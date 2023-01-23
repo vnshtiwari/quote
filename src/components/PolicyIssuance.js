@@ -12,7 +12,7 @@ export default function PolicyIssuance({ policyStatus }) {
           display: policyStatus != "Accepted" ? "block" : "none",
         }}
       >
-        Your policy status {policyStatus}
+        Your policy status : {policyStatus}
       </div>
       <div
         class="page"

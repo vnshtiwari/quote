@@ -28,6 +28,7 @@ export default function Proposal({
   validate,
   insParty,
   setLoader,
+  basicData,
 }) {
   let [insPartyDetails, setInsPartyDetails] = useState({});
   let [errorMsg, setErrorMsg] = useState(null);
@@ -52,7 +53,15 @@ export default function Proposal({
     return true;
   }
 
-  useEffect(() => {});
+  useEffect(() => {
+    debugger;
+    console.log(insPartyDetails);
+    if (insParty["Self"]) {
+      insPartyDetails["Self"] = {};
+      insPartyDetails["Self"].firstName = basicData["firstName"];
+      insPartyDetails["Self"].lastName = basicData["lastName"];
+    }
+  }, []);
 
   let navigate = useNavigate();
   async function next() {
@@ -69,8 +78,8 @@ export default function Proposal({
       customerId: sessionStorage.getItem("customerId"),
       quoteId: sessionStorage.getItem("quoteId"),
       mobile: "7338237890",
-      firstName: insPartyDetails["Self"]?.firstName,
-      lastName: insPartyDetails["Self"]?.lastName,
+      firstName: basicData["firstName"],
+      lastName: basicData["lastName"],
       email: "apurva.test@example.com",
       dob: insPartyDetails["Self"]?.dob,
       gender: "male",
@@ -95,7 +104,7 @@ export default function Proposal({
 
     console.log(content.proposalId);
     sessionStorage.setItem("proposalId", content.proposalId);
-    navigate("../ekyc");
+    navigate("../payment");
   }
   return (
     <section class="chat-container">
@@ -120,6 +129,7 @@ export default function Proposal({
                               fullWidth
                               label="First Name"
                               variant="outlined"
+                              value={insPartyDetails[item[0]]?.firstName}
                               onChange={(e) => {
                                 if (!insPartyDetails[item[0]])
                                   insPartyDetails[item[0]] = {};
@@ -135,6 +145,7 @@ export default function Proposal({
                               fullWidth
                               label="Last Name"
                               variant="outlined"
+                              value={insPartyDetails[item[0]]?.lastName}
                               onChange={(e) => {
                                 if (!insPartyDetails[item[0]])
                                   insPartyDetails[item[0]] = {};
