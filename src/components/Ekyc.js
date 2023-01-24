@@ -329,7 +329,6 @@ export default function Ekyc({
                 <TextField
                   label="PAN Number"
                   variant="outlined"
-                  required
                   disabled
                   fullWidth
                   value={ekycData["pan"]}

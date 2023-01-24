@@ -19,6 +19,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import DialogContent from "@mui/material/DialogContent";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 export default function Proposal({
   contactData,
@@ -185,6 +186,17 @@ export default function Proposal({
                   />
                 </LocalizationProvider>
               </div>
+              <div className="mt30">
+                <TextareaAutosize
+                  maxRows={4}
+                  fullWidth
+                  aria-label="maximum height"
+                  placeholder="Proposer Address"
+                  defaultValue=""
+                  style={{ width: 350 }}
+                  minRows={3}
+                />
+              </div>
             </div>
 
             <div>
@@ -245,7 +257,9 @@ export default function Proposal({
                                 className="fullwidth"
                                 label="Date of Birth"
                                 inputFormat="MM/dd/yyyy"
-                                value={insPartyDetails[item[0]]?.["dob"]}
+                                value={
+                                  insPartyDetails[item[0]]?.["dob"] || null
+                                }
                                 onChange={(newValue) => {
                                   if (!insPartyDetails[item[0]])
                                     insPartyDetails[item[0]] = {};
