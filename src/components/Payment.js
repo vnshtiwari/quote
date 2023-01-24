@@ -181,7 +181,7 @@ export default function Payment({
       <span>
         <div class="questions-container user_name">
           <div class=" cGIqAI dmGYTj hTEcPe chat-question-inner user_name  text_single ">
-            <h3 class=" fFoQAK">Pay you insurance</h3>
+            <h3 class=" fFoQAK">Pay your insurance</h3>
 
             <div id="checkout"></div>
 
