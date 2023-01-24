@@ -253,7 +253,7 @@ export default function Plans({
                 size="large"
                 variant="contained"
               >
-                Pay
+                Proceed
               </Button>
             </div>
           </Toolbar>

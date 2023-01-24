@@ -139,6 +139,11 @@ export default function Plans({
 
   return (
     <section className="plan-container">
+      <div class=" cGIqAI dmGYTj  chat-question-inner user_name  text_single ">
+        <Typography gutterBottom variant="h2" component="h2">
+          Pru Products
+        </Typography>
+      </div>
       <div>
         <Grid container sx={{}} justifyContent="space-around">
           {planList.map((item) => {
@@ -156,7 +161,7 @@ export default function Plans({
                   selectCard(item.productName, item.amount, item.productId);
                 }}
               >
-                <Typography gutterBottom variant="subtitle1" component="div">
+                <Typography gutterBottom variant="h4" component="h2">
                   {item.productName}
                 </Typography>
                 <Typography variant="body2" gutterBottom>

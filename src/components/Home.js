@@ -339,6 +339,7 @@ export default function Home() {
                   setLoader={setLoader}
                   setErrMsg={setErrMsg}
                   basicData={basicData}
+                  contactData={contactData}
                 />
               </Suspense>
             }

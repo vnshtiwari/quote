@@ -235,7 +235,7 @@ export default function Ekyc({
             name.indexOf(" ") + 1,
             name.length
           );
-
+          basicData["dob"] = res.result.data.dob;
           setBasicData({ ...basicData });
         }
       })
@@ -385,9 +385,7 @@ export default function Ekyc({
 
           <div class="submit-wrap align-center">
             <Button
-              // disabled={
-              //   !(ekycData["pan"] != "" && ekycData["aadharEkyc"] != "")
-              // }
+              disabled={!(ekycData["aadharEkyc"] != "")}
               onClick={next}
               variant="contained"
               color="error"

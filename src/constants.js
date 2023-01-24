@@ -51,23 +51,47 @@ const HealthInsuranceQuestion = [
   },
 ];
 
-const marks = [
-  {
-    value: 0,
-    label: "0",
-  },
-  {
-    value: 20,
-    label: "10",
-  },
-  {
-    value: 60,
-    label: "30",
-  },
-  {
-    value: 100,
-    label: "50+",
-  },
-];
+const marks = {
+  age: [
+    {
+      value: 0,
+      label: "0",
+    },
+    {
+      value: 20,
+      label: "20",
+    },
+    {
+      value: 40,
+      label: "40",
+    },
+    {
+      value: 60,
+      label: "60",
+    },
+    {
+      value: 80,
+      label: "80",
+    },
+    {
+      value: 100,
+      label: "100",
+    },
+  ],
+  height: [
+    {
+      value: 0,
+      label: "0 CM",
+    },
+    {
+      value: 50,
+      label: "100 CM",
+    },
+    {
+      value: 100,
+      label: "200 CM",
+    },
+  ],
+};
 
 export { BasicDetailsHeadings, ReferenceName, HealthInsuranceQuestion, marks };

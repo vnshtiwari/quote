@@ -118,7 +118,7 @@ export default function ContactInfo({
       <span>
         <div class="questions-container user_name">
           <div class=" cGIqAI dmGYTj hTEcPe chat-question-inner user_name  text_single ">
-            <h3 class=" fFoQAK">Do the Prudential Insurance</h3>
+            <h3 class=" fFoQAK">Welcome! Start your insurance journey</h3>
 
             <div className={style.basicDetailContainer}>
               <div class="input-container  mt30 text">

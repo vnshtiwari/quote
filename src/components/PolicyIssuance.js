@@ -1,6 +1,79 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 
 export default function PolicyIssuance({ policyStatus }) {
+  const [message, setMessage] = useState("");
+  function processStatus(status) {
+    const ACCEPTED =
+      "Congratulations! Your policy has been generated. Polcy details are shared on your registered mobile number and email.";
+    const ACCEPTED_LOADING =
+      "Dear customer, based on the risk assessed we would like to collect a further payment of 1000rs. We have sent a payment link on your registered mobile number and email. Kindly confirm and pay!";
+    const ACCEPTED_EXCLUSION =
+      "Dear customer, we are happy to issue you the policy for the selected product. However, we are excluding some of the policy benefits based on the assessed risk. Details are shared on your email and registered email and mobile. Please confirm to proceed.";
+    const ACCEPTED_LOADING_EXCLUSION =
+      "Dear customer, based on the risk assessed we would like to collect a further payment of 1000rs. We have sent a payment link on your registered mobile number and email. We are also excluding some of the policy benefits based on the assessed risk Kindly confirm and pay!";
+    const DECLINED =
+      "Dear customer, we are unable to issue an policy to you at this moment;";
+
+    const statusId = status;
+    if (statusId === "accepted") {
+      const message = ACCEPTED;
+      const policyId = `SAHI_${Math.floor(Math.random() * 1000000000)}`;
+      const currentDate = new Date();
+      const startDate = currentDate.toDateString();
+      const currYear = currentDate.getFullYear();
+      const policyYear = currYear + 1;
+      const endDate = new Date(
+        currentDate.setFullYear(policyYear)
+      ).toDateString();
+
+      // display this on the screen
+      return {
+        message,
+        policyId,
+        startDate,
+        endDate,
+      };
+    } else if (statusId === "acceptedWithLoading") {
+      const message = ACCEPTED_LOADING;
+
+      // display this on the screen
+      return {
+        message,
+      };
+    } else if (statusId === "acceptedWithExclusion") {
+      const message = ACCEPTED_EXCLUSION;
+
+      // display this on the screen
+      return {
+        message,
+      };
+    } else if (statusId == "acceptedWithLoadingAndExclusion") {
+      const message = ACCEPTED_LOADING_EXCLUSION;
+
+      // display this on the screen
+      return {
+        message,
+      };
+    } else if (statusId == "declined") {
+      const message = DECLINED;
+
+      // display this on the screen
+      return {
+        message,
+      };
+    } else {
+      // display this on the screen
+      return {
+        message:
+          "Dear customer, your policy issuance is deferred at the moment. We will reach out to you to with further details.",
+      };
+    }
+  }
+
+  useEffect(() => {
+    let msg = processStatus(policyStatus);
+    setMessage(msg);
+  }, []);
   return (
     <section style={{ display: "flex", justifyContent: "center" }}>
       <div
@@ -12,9 +85,16 @@ export default function PolicyIssuance({ policyStatus }) {
           display: policyStatus != "Accepted" ? "block" : "none",
         }}
       >
-        Your policy status : {policyStatus}
+        {message.message}
+        {message.policyId && (
+          <>
+            <div>Policy id : {message.policyId}</div>
+            <div>Policy start date : {message.startDate}</div>
+            <div>Policy end date : {message.endDate}</div>
+          </>
+        )}
       </div>
-      <div
+      {/* <div
         class="page"
         style={{
           "box-shadow": "rgba(0, 0, 0, 0.15) 0px 79px 158px 0px",
@@ -75,7 +155,7 @@ export default function PolicyIssuance({ policyStatus }) {
           </li>
           <li>Damage to other people, up to $100,000</li>
         </ul>
-      </div>
+      </div> */}
     </section>
   );
 }

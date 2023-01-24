@@ -37,6 +37,7 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
   let [questionObj, setQuestionObj] = useState([]);
 
   useEffect(() => {
+    setLoader(true);
     fetch(
       "https://sahi-backend-dnhiaxv6nq-el.a.run.app/api/v1/sahi/uw/questions"
     ) //api for the get request
@@ -52,6 +53,7 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
         setCurrQuestion(questionObj.questions[0]);
         quesSeq.push();
         console.log(data);
+        setLoader(false);
       });
 
     // let [ques, setQues] = useState({ ...questionObj });
@@ -104,7 +106,7 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
           .then((res) => res.json())
           .then((data) => {
             setLoader(false);
-            setPolicyStatus(data.status);
+            setPolicyStatus(data.statusId);
             navigate("../policyIssuance");
           })
           .catch((err) => {
@@ -242,7 +244,10 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
                 onClick={previousQ}
               />
 
-              <div className="question-form" style={{ width: "100%" }}>
+              <div
+                className="question-form"
+                style={{ width: "100%", "min-width": "300px" }}
+              >
                 <div style={{ "max-width": "416px" }} class="faXeTW hLEbcr">
                   <div style={{ width: "100%" }} class="cZobsb gLeraX">
                     <div class="cGIqAI gQDvru" style={{ opacity: "1" }}>
@@ -267,9 +272,16 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
                           value={parseInt(currAnswer)}
                           key={question}
                           onChange={(event, newValue) => {
+                            console.log(currQuestion, marks);
+
                             setCurrAnswer(newValue);
                           }}
-                          marks={marks}
+                          // marks={marks}
+                          marks={
+                            currQuestion.key == "height"
+                              ? marks["height"]
+                              : marks["age"]
+                          }
                         />
                       )}
                       {questionType == "string" &&

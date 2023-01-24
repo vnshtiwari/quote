@@ -43,9 +43,7 @@ export default function Proposal({
         insPartyDetails[parties[i]] &&
         insPartyDetails[parties[i]]["firstName"] &&
         insPartyDetails[parties[i]]["lastName"] &&
-        insPartyDetails[parties[i]]["dob"] &&
-        insPartyDetails[parties[i]]["weight"];
-
+        insPartyDetails[parties[i]]["dob"];
       if (!check) {
         return false;
       }
@@ -60,6 +58,7 @@ export default function Proposal({
       insPartyDetails["Self"] = {};
       insPartyDetails["Self"].firstName = basicData["firstName"];
       insPartyDetails["Self"].lastName = basicData["lastName"];
+      insPartyDetails["Self"].dob = basicData["dob"];
     }
   }, []);
 
@@ -77,11 +76,11 @@ export default function Proposal({
     let data = {
       customerId: sessionStorage.getItem("customerId"),
       quoteId: sessionStorage.getItem("quoteId"),
-      mobile: "7338237890",
+      mobile: contactData["mobile"],
       firstName: basicData["firstName"],
       lastName: basicData["lastName"],
-      email: "apurva.test@example.com",
-      dob: insPartyDetails["Self"]?.dob,
+      email: insPartyDetails["Self"].email,
+      dob: basicData["lastName"],
       gender: "male",
       insurableParty: insPartyArray,
     };
@@ -111,7 +110,82 @@ export default function Proposal({
       <span>
         <div class="questions-container user_name">
           <div class=" cGIqAI dmGYTj hTEcPe chat-question-inner user_name  text_single ">
-            <h3 class=" fFoQAK">Do the Prudential Insurance</h3>
+            <h3 class=" fFoQAK">Create your proposal</h3>
+
+            <div className={style.basicDetailContainer}>
+              <div class="input-container  mt30 text">
+                <TextField
+                  id="filled-basic"
+                  fullWidth
+                  label="Proposer First Name"
+                  variant="outlined"
+                  value={insPartyDetails["Self"]?.firstName}
+                  onChange={(e) => {
+                    insPartyDetails["Self"]["firstName"] = e.target.value;
+                    setInsPartyDetails({ ...insPartyDetails });
+                  }}
+                  spellCheck={false}
+                  type="string"
+                  required
+                />
+              </div>
+
+              <div class="input-container  mt30 text">
+                <TextField
+                  id="filled-basic"
+                  fullWidth
+                  label="Proposer Last Name"
+                  variant="outlined"
+                  value={insPartyDetails["Self"]?.lastName}
+                  onChange={(e) => {
+                    insPartyDetails["Self"]["lastName"] = e.target.value;
+                    setInsPartyDetails({ ...insPartyDetails });
+                  }}
+                  spellCheck={false}
+                  type="string"
+                  required
+                />
+              </div>
+
+              <div class="input-container  mt30 text">
+                <TextField
+                  id="filled-basic"
+                  fullWidth
+                  label="Proposer Email"
+                  variant="outlined"
+                  value={insPartyDetails["Self"]?.email}
+                  onChange={(e) => {
+                    insPartyDetails["Self"]["email"] = e.target.value;
+                    setInsPartyDetails({ ...insPartyDetails });
+                  }}
+                  spellCheck={false}
+                  type="string"
+                  required
+                />
+              </div>
+
+              <div className="mt30">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    className="fullwidth"
+                    label="Proposer Date of Birth"
+                    value={insPartyDetails["Self"]?.dob}
+                    onChange={(newValue) => {
+                      insPartyDetails["Self"]["dob"] = newValue;
+                      setInsPartyDetails({ ...insPartyDetails });
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        value={insPartyDetails["Self"]?.dob}
+                        required
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </div>
+            </div>
 
             <div>
               <div class="input-container  mt30 text">
@@ -187,7 +261,7 @@ export default function Proposal({
                               />
                             </LocalizationProvider>
                           </Grid>
-                          <Grid item xs={4} md={2}>
+                          {/* <Grid item xs={4} md={2}>
                             <TextField
                               id="filled-basic"
                               fullWidth
@@ -208,7 +282,7 @@ export default function Proposal({
                                 autocomplete: "off",
                               }}
                             />
-                          </Grid>
+                          </Grid> */}
                         </Grid>
                       );
                     })}
