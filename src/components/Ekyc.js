@@ -325,7 +325,7 @@ export default function Ekyc({
                   }}
                 />
               </div>
-              <div class="input-container  mt30 text">
+              {/* <div class="input-container  mt30 text">
                 <TextField
                   label="PAN Number"
                   variant="outlined"
@@ -378,7 +378,7 @@ export default function Ekyc({
                     ),
                   }}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 
