@@ -16,7 +16,7 @@ export default function Root(props) {
   return (
     <BrowserRouter>
       <ThemeProvider theme={THEME}>
-        <ProductList />
+        <ProductList props={props} />
       </ThemeProvider>
       {/* <Banner text={"Insurance that keeps your stuff safe"} subText={"Renter tested. Landlord approved. Starting from $5/mo."}/> */}
     </BrowserRouter>

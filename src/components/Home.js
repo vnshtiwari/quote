@@ -35,7 +35,7 @@ import PolicyIssuance from "./PolicyIssuance";
 import Proposal from "./Proposal";
 import Payment from "./Payment";
 
-export default function Home() {
+export default function Home(props) {
   const navigate = useNavigate();
 
   const [messages, setMessages] = useState([]);
@@ -202,7 +202,7 @@ export default function Home() {
 
   return (
     <>
-      <NavBar />
+      {props.disableHeader && <NavBar />}
       <div className="test"> {messages}</div>
       <CircularProgress
         sx={{ display: isLoader ? "block" : "none" }}
