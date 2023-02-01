@@ -43,6 +43,7 @@ export default function Home(props) {
   const handleNewMessage = (event) => {
     setMessages(event.detail);
   };
+  console.log(props);
 
   useEffect(() => {
     window.addEventListener("message", handleNewMessage);
