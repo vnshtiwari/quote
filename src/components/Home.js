@@ -43,11 +43,14 @@ export default function Home(props) {
   const handleNewMessage = (event) => {
     setMessages(event.detail);
   };
-  console.log(props);
 
   useEffect(() => {
     window.addEventListener("message", handleNewMessage);
   }, [handleNewMessage]);
+
+  useEffect(() => {
+    console.log(props);
+  }, []);
 
   let [step, setStep] = useState(0);
   let [basicData, setBasicData] = useState({
