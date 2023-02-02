@@ -206,7 +206,7 @@ export default function Home(props) {
 
   return (
     <>
-      {!props.disableHeader && <NavBar />}
+      <NavBar />
       <div className="test"> {messages}</div>
       <CircularProgress
         sx={{ display: isLoader ? "block" : "none" }}
@@ -217,7 +217,6 @@ export default function Home(props) {
           color: "#ed1b2e",
         }}
       />
-
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>{errMsg}</DialogContent>
         <DialogActions>

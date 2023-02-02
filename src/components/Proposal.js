@@ -55,12 +55,11 @@ export default function Proposal({
   useEffect(() => {
     debugger;
     console.log(insPartyDetails);
-    if (insParty["Self"]) {
-      insPartyDetails["Self"] = {};
-      insPartyDetails["Self"].firstName = basicData["firstName"];
-      insPartyDetails["Self"].lastName = basicData["lastName"];
-      insPartyDetails["Self"].dob = basicData["dob"];
-    }
+    insPartyDetails["Self"] = {};
+    insPartyDetails["Self"].firstName = basicData["firstName"];
+    insPartyDetails["Self"].lastName = basicData["lastName"];
+    insPartyDetails["Self"].dob = basicData["dob"];
+    insPartyDetails["Self"].address = basicData["address"];
   }, []);
 
   let navigate = useNavigate();
@@ -190,6 +189,7 @@ export default function Proposal({
                 <TextareaAutosize
                   maxRows={4}
                   fullWidth
+                  value={insPartyDetails["Self"]?.address}
                   aria-label="maximum height"
                   placeholder="Proposer Address"
                   defaultValue=""

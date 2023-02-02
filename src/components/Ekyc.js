@@ -236,6 +236,7 @@ export default function Ekyc({
             name.length
           );
           basicData["dob"] = res.result.data.dob;
+          basicData["address"] = res.result.data.address;
           setBasicData({ ...basicData });
         }
       })
