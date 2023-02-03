@@ -206,7 +206,7 @@ export default function Home(props) {
 
   return (
     <>
-      <NavBar />
+      {!props.disableHeader && <NavBar />}
       <div className="test"> {messages}</div>
       <CircularProgress
         sx={{ display: isLoader ? "block" : "none" }}
