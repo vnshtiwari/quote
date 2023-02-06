@@ -111,6 +111,8 @@ export default function ContactInfo({
 
       setPlan([...content.quote]);
       navigate("../plans");
+
+      gtag("event", "contact_info", contactData);
     }
   }
   return (

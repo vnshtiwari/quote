@@ -102,6 +102,7 @@ export default function Home(props) {
   let [amount, setAmount] = useState(0);
 
   const [isLoader, setLoader] = useState(false);
+  let [insPartyDetails, setInsPartyDetails] = useState({});
 
   let [error, setError] = useState({
     firstName: null,
@@ -281,6 +282,7 @@ export default function Home(props) {
                   state={state}
                   setLoader={setLoader}
                   setErrMsg={setErrMsg}
+                  selectedPlan={selectedPlan}
                 />
               </Suspense>
             }
@@ -343,6 +345,8 @@ export default function Home(props) {
                   setErrMsg={setErrMsg}
                   basicData={basicData}
                   contactData={contactData}
+                  setInsPartyDetails={setInsPartyDetails}
+                  insPartyDetails={insPartyDetails}
                 />
               </Suspense>
             }

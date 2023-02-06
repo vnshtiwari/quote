@@ -238,6 +238,9 @@ export default function Ekyc({
           basicData["dob"] = res.result.data.dob;
           basicData["address"] = res.result.data.address;
           setBasicData({ ...basicData });
+          gtag("event", "ekyc_completed", {
+            id: res.result.data.id_no,
+          });
         }
       })
       .catch((error) => {

@@ -43,6 +43,7 @@ export default function Plans({
   handleChange,
   state,
   setLoader,
+  selectedPlan,
 }) {
   let [planBenefits, setPlanBenefits] = useState([]);
   let [planId, setPlanId] = useState(null);
@@ -64,6 +65,7 @@ export default function Plans({
   }
 
   async function getPersonaliseQuote() {
+    debugger;
     if (error) return;
     let quoteData = {
       mobile: "7338209890",
@@ -85,7 +87,7 @@ export default function Plans({
         },
       ],
     };
-    quoteData["selectedProductId"] = planId;
+    quoteData["selectedProductId"] = planId || selectedPlan.productId;
     console.log(quoteData);
     setLoader(true);
     const rawResponse = await fetch(

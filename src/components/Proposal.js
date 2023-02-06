@@ -30,8 +30,9 @@ export default function Proposal({
   insParty,
   setLoader,
   basicData,
+  setInsPartyDetails,
+  insPartyDetails,
 }) {
-  let [insPartyDetails, setInsPartyDetails] = useState({});
   let [errorMsg, setErrorMsg] = useState(null);
 
   function validate() {
