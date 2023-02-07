@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
@@ -58,6 +58,7 @@ export default function Plans({
   }
 
   function buyNow() {
+    gtag("event", "personalise_quote_done");
     navigate("../ekyc");
   }
 
@@ -77,6 +78,9 @@ export default function Plans({
   function createData(benefitName, cover) {
     return { benefitName, cover };
   }
+  useEffect(() => {
+    gtag("event", "personalise_quote_init");
+  });
 
   const [personName, setPersonName] = useState([]);
   const [gender, setGender] = useState("");

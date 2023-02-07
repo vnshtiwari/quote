@@ -73,6 +73,7 @@ export default function PolicyIssuance({ policyStatus }) {
   useEffect(() => {
     let msg = processStatus(policyStatus);
     setMessage(msg);
+    gtag("event", "policy_generated");
   }, []);
   return (
     <section style={{ display: "flex", justifyContent: "center" }}>

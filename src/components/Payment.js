@@ -61,6 +61,7 @@ export default function Payment({
             debugger;
             //messageEl.style.display = "none";
             //paytmScript.parentNode.removeChild(paytmScript);
+            gtag("event", "payment_done");
 
             navigate("../insuranceQuestionnaire");
           } else {
@@ -132,27 +133,11 @@ export default function Payment({
       });
   }
 
-  const loadScript = (src) => {
-    return new Promise((resovle) => {
-      const script = document.createElement("script");
-      script.src = src;
-
-      script.onload = () => {
-        resovle(true);
-      };
-
-      script.onerror = () => {
-        resovle(false);
-      };
-
-      document.body.appendChild(script);
-    });
-  };
-
   const navigate = useNavigate();
 
   useEffect(() => {
     initiateTransaction();
+    gtag("event", "payment_init");
   }, []);
 
   const [open, setOpen] = useState(false);

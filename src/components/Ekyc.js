@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -44,6 +44,10 @@ export default function Ekyc({
     addPaytmScript(onScriptLoad);
   }
 
+  useEffect(() => {
+    gtag("event", "ekyc_init");
+  }, []);
+
   function onScriptLoad() {
     // document.querySelector(".order-details").style.display = "none";
     var config = {
@@ -72,7 +76,7 @@ export default function Ekyc({
             debugger;
             //messageEl.style.display = "none";
             //paytmScript.parentNode.removeChild(paytmScript);
-
+            gtag("event", "ekyc_done");
             navigate("../proposal");
           } else {
             setErrMsg(paymentStatus);
@@ -238,9 +242,6 @@ export default function Ekyc({
           basicData["dob"] = res.result.data.dob;
           basicData["address"] = res.result.data.address;
           setBasicData({ ...basicData });
-          gtag("event", "ekyc_completed", {
-            id: res.result.data.id_no,
-          });
         }
       })
       .catch((error) => {

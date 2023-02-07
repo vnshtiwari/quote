@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
@@ -109,6 +109,7 @@ export default function Plans({
     debugger;
     sessionStorage.setItem("customerId", content.customerId);
     sessionStorage.setItem("quoteId", content.quoteId);
+    gtag("event", "quote_gen_done");
 
     navigate("../personalisedQuote");
   }
@@ -129,6 +130,9 @@ export default function Plans({
   function createData(benefitName, cover) {
     return { benefitName, cover };
   }
+  useEffect(() => {
+    gtag("event", "quote_gen_init");
+  });
 
   const [personName, setPersonName] = useState([]);
   const [gender, setGender] = useState("");

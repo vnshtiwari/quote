@@ -45,6 +45,10 @@ export default function ContactInfo({
     if (emailOtp.length == 6) setEmailVerified(true);
   }, [emailOtp]);
 
+  useEffect(() => {
+    gtag("event", "contact_info_init");
+  }, []);
+
   // useEffect(() => {
   //   const mojoauth = new MojoAuth("test-70d678ab-4b55-4445-9b2e-040ba352a6ce", {
   //     source: [{ type: "phone", feature: "otp" }],
@@ -110,9 +114,9 @@ export default function ContactInfo({
       setLoader(false);
 
       setPlan([...content.quote]);
-      navigate("../plans");
+      gtag("event", "contact_info_done");
 
-      gtag("event", "contact_info", contactData);
+      navigate("../plans");
     }
   }
   return (

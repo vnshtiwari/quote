@@ -56,6 +56,8 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
         setLoader(false);
       });
 
+    gtag("event", "underwriting_init");
+
     // let [ques, setQues] = useState({ ...questionObj });
   }, []);
 
@@ -107,6 +109,7 @@ export default function InsuranceQuestionnair({ setLoader, setPolicyStatus }) {
           .then((data) => {
             setLoader(false);
             setPolicyStatus(data.statusId);
+            gtag("event", "underwriting_done");
             navigate("../policyIssuance");
           })
           .catch((err) => {
