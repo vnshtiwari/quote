@@ -80,7 +80,7 @@ export default function Plans({
   }
   useEffect(() => {
     gtag("event", "personalise_quote_init");
-  });
+  }, []);
 
   const [personName, setPersonName] = useState([]);
   const [gender, setGender] = useState("");

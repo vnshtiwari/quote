@@ -132,7 +132,7 @@ export default function Plans({
   }
   useEffect(() => {
     gtag("event", "quote_gen_init");
-  });
+  }, []);
 
   const [personName, setPersonName] = useState([]);
   const [gender, setGender] = useState("");
