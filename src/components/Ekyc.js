@@ -76,7 +76,6 @@ export default function Ekyc({
             debugger;
             //messageEl.style.display = "none";
             //paytmScript.parentNode.removeChild(paytmScript);
-            gtag("event", "ekyc_done");
             navigate("../proposal");
           } else {
             setErrMsg(paymentStatus);
@@ -199,6 +198,8 @@ export default function Ekyc({
 
   function next() {
     validate(1);
+    gtag("event", "ekyc_done");
+
     navigate("../proposal");
   }
   const [open, setOpen] = useState(false);
